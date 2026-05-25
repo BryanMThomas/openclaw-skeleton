@@ -1,0 +1,17 @@
+# NEVER commit live data. This skeleton is structure only.
+# Memories (personal data), credentials, and session history stay local.
+**/MEMORY.md
+**/memory/
+**/credentials/
+**/identity/
+**/auth.json
+**/auth-profiles.json
+**/sessions/
+**/sessions.json
+**/shared/
+**/shared-groups/
+*.bak
+*.bak.*
+.env
+.env.*
+openclaw.json

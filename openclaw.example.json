@@ -1,0 +1,79 @@
+{
+  "meta": {
+    "team": "ExampleFleet",
+    "note": "Sanitized example config. Copy to openclaw.json and fill in real values. Secrets belong in credentials/, never here."
+  },
+  "models": {
+    "provider": "openrouter",
+    "default": "openrouter/anthropic/claude-sonnet",
+    "note": "Always route through OpenRouter. Each agent may override `model` below."
+  },
+  "agents": {
+    "defaults": {
+      "workspaceRoot": "/home/USER/.openclaw/agents",
+      "model": "openrouter/anthropic/claude-sonnet"
+    },
+    "list": [
+      {
+        "id": "<AGENT_ID>",
+        "default": true,
+        "name": "Orchestrator",
+        "workspace": "/home/USER/.openclaw/agents/orchestrator",
+        "agentDir": "/home/USER/.openclaw/agents/orchestrator/agent",
+        "model": "openrouter/anthropic/claude-opus",
+        "identity": { "name": "Orchestrator", "emoji": "compass" }
+      },
+      {
+        "id": "<AGENT_ID>",
+        "name": "FinanceAnalyst",
+        "workspace": "/home/USER/.openclaw/agents/finance-analyst",
+        "agentDir": "/home/USER/.openclaw/agents/finance-analyst/agent",
+        "model": "openrouter/deepseek/deepseek-v3.2",
+        "identity": { "name": "FinanceAnalyst", "emoji": "chart_with_upwards_trend" }
+      },
+      {
+        "id": "<AGENT_ID>",
+        "name": "ProjectManager",
+        "workspace": "/home/USER/.openclaw/agents/project-manager",
+        "agentDir": "/home/USER/.openclaw/agents/project-manager/agent",
+        "model": "openrouter/deepseek/deepseek-v3.2",
+        "identity": { "name": "ProjectManager", "emoji": "clipboard" }
+      }
+    ]
+  },
+  "channels": {
+    "slack": {
+      "enabled": true,
+      "botTokenRef": "credentials/slack-bot-token",
+      "appTokenRef": "credentials/slack-app-token",
+      "routing": [
+        { "channel": "#general", "agent": "Orchestrator", "requireMention": false },
+        { "channel": "#finance", "agent": "FinanceAnalyst", "requireMention": true },
+        { "channel": "#projects", "agent": "ProjectManager", "requireMention": true }
+      ]
+    }
+  },
+  "cron": {
+    "jobs": [
+      {
+        "name": "daily-brief",
+        "agent": "Orchestrator",
+        "schedule": "0 9 * * *",
+        "timezone": "America/Los_Angeles",
+        "deliver": "DM",
+        "timeoutSeconds": 600
+      }
+    ]
+  },
+  "gateway": {
+    "heapMB": 4096,
+    "note": "Bump heap if large sessions OOM the gateway. Runs as a user systemd unit."
+  },
+  "tools": {
+    "mcp": {
+      "enabled": true,
+      "servers": "Configure MCP servers per agent; reference credentials by ref, never inline."
+    }
+  },
+  "plugins": []
+}
