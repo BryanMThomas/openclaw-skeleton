@@ -5,7 +5,7 @@ This skeleton is declarative: the whole fleet is **config + markdown personas**.
 ## 1. Host + OpenClaw
 
 ```bash
-# On a fresh Linux host (e.g. AWS Lightsail/EC2):
+# On a fresh Linux host:
 # install OpenClaw per https://github.com/openclaw/openclaw
 mkdir -p ~/.openclaw
 ```
